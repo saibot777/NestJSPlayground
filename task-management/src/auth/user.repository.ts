@@ -1,10 +1,10 @@
-import { Repository, EntityRepository } from 'typeorm';
-import { User } from './user.entity';
+import { EntityRepository, Repository } from 'typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { User } from './user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+  public async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
 
     const user = new User();
