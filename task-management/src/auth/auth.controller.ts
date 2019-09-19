@@ -6,6 +6,7 @@ import {
   InternalServerErrorException,
   Post,
   Res,
+  UnauthorizedException,
   ValidationPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -28,7 +29,24 @@ export class AuthController {
       if (error.code === '23505' || 23505) {
         throw new ConflictException('Username already exists');
       } else {
-        throw new InternalServerErrorException(error);
+        throw new InternalServerErrorException();
+      }
+    }
+  }
+
+  @Post('/signin')
+  public async signIn(
+    @Res() res: Response,
+    @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
+  ) {
+    try {
+      const user = await this.authService.signIn(authCredentialsDto);
+      return res.status(HttpStatus.OK).json(user);
+    } catch (error) {
+      if (error.status === 401) {
+        throw new UnauthorizedException('Invalid credentials!');
+      } else {
+        throw new InternalServerErrorException();
       }
     }
   }
