@@ -27,9 +27,8 @@ export class UserRepository extends Repository<User> {
 
     if (user && (await user.validatePassword(password))) {
       return user.username;
-    } else {
-      throw new UnauthorizedException('Invalid credentials!');
     }
+    return;
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {
