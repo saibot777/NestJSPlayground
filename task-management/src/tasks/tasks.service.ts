@@ -53,8 +53,8 @@ export class TasksService {
     return task;
   }
 
-  public async deleteTask(id: number): Promise<void> {
-    const result = await this.taskRepository.delete(id);
+  public async deleteTask(id: number, user: User): Promise<void> {
+    const result = await this.taskRepository.delete({ id, userId: user.id });
     console.log(result);
   }
 }
