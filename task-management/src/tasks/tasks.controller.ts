@@ -36,8 +36,11 @@ export class TasksController {
   }
 
   @Get('/:id')
-  public getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
-    return this.tasksService.getTaskById(id);
+  public getTaskById(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return this.tasksService.getTaskById(id, user);
   }
 
   @Post()
@@ -49,13 +52,13 @@ export class TasksController {
     return this.tasksService.createTask(createTaskDto, user);
   }
 
-  @Patch('/:id/status')
-  public updateTaskStatus(
-    @Param('id', ParseIntPipe) id: number,
-    @Body('status', TaskStatusValidationPipe) status: TaskStatus,
-  ): Promise<Task> {
-    return this.tasksService.updateTaskStatus(id, status);
-  }
+  // @Patch('/:id/status')
+  // public updateTaskStatus(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body('status', TaskStatusValidationPipe) status: TaskStatus,
+  // ): Promise<Task> {
+  //   return this.tasksService.updateTaskStatus(id, status);
+  // }
 
   @Delete('/:id')
   public deleteTask(@Param('id', ParseIntPipe) id: number): void {
