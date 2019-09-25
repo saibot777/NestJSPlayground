@@ -27,16 +27,17 @@ describe('TasksService', () => {
   });
 
   describe('getTasks', () => {
-    it('gets all tasks from the repository', () => {
-      expect(taskRepository.getTasks).not.toHaveBeenCalled();
+    it('gets all tasks from the repository', async () => {
+      taskRepository.getTasks.mockReturnValue('someValue');
 
+      expect(taskRepository.getTasks).not.toHaveBeenCalled();
       const filters: GetTasksFilterDto = {
         status: TaskStatus.IN_PROGRESS,
         search: 'search query',
       };
-
-      tasksService.getTasks(filters, mockUser);
+      const result = await tasksService.getTasks(filters, mockUser);
       expect(taskRepository.getTasks).toHaveBeenCalled();
+      expect(result).toEqual('someValue');
     });
   });
 });
