@@ -6,4 +6,6 @@ export interface Config {
   username: any;
   password: any;
   synchronize: any;
+  expiresIn: any;
+  secret: any;
 }
